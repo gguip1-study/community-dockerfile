@@ -1,0 +1,24 @@
+services:
+  ktb-portainer:
+    build: ./ktb-portainer
+    container_name: ktb-portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+  ktb-nginx:
+    build: ./ktb-nginx
+    container_name: ktb-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./ktb-nginx/conf.d:/etc/nginx/conf.d
+      - ./ktb-nginx/certs:/etc/nginx/certs
+
+volumes:
+  portainer_data:
