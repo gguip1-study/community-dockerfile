@@ -1,15 +1,10 @@
 services:
-  ktb-portainer:
-    build: ./ktb-portainer
-    container_name: ktb-portainer
-    restart: unless-stopped
-    ports:
-      - "9000:9000"
-    depends_on:
-      - ktb-nginx
+  ktb-certbot:
+    container_name: ktb-certbot
+    image: certbot/certbot
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - letsencrypt:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
 
   ktb-nginx:
     build: ./ktb-nginx
@@ -21,17 +16,61 @@ services:
     depends_on:
       - ktb-certbot
     volumes:
-      - ./ktb-nginx/conf.d:/etc/nginx/conf.d
-      - ./ktb-nginx/certs:/etc/nginx/certs
+      letsencrypt:/etc/letsencrypt
+      certbot-www:/var/www/certbot
 
-  ktb-certbot:
-    container_name: ktb-certbot
-    image: certbot/certbot
+  ktb-portainer:
+    build: ./ktb-portainer
+    container_name: ktb-portainer
     restart: unless-stopped
+    ports:
+      - "9000:9000"
+    depends_on:
+      - ktb-nginx
+      - ktb-certbot
     volumes:
-      - /etc/letsencrypt/certbot/conf:/etc/letsencrypt
-      - /etc/letsencrypt/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
 
 volumes:
+  letsencrypt:
+  certbot-www:
   portainer_data:
+
+# services:
+#   ktb-portainer:
+#     build: ./ktb-portainer
+#     container_name: ktb-portainer
+#     restart: unless-stopped
+#     ports:
+#       - "9000:9000"
+#     depends_on:
+#       - ktb-nginx
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+#       - portainer_data:/data
+
+#   ktb-nginx:
+#     build: ./ktb-nginx
+#     container_name: ktb-nginx
+#     restart: unless-stopped
+#     ports:
+#       - "80:80"
+#       - "443:443"
+#     depends_on:
+#       - ktb-certbot
+#     volumes:
+#       - ./ktb-nginx/conf.d:/etc/nginx/conf.d
+#       - ./ktb-nginx/certs:/etc/nginx/certs
+
+#   ktb-certbot:
+#     container_name: ktb-certbot
+#     image: certbot/certbot
+#     restart: unless-stopped
+#     volumes:
+#       - /etc/letsencrypt/certbot/conf:/etc/letsencrypt
+#       - /etc/letsencrypt/certbot/www:/var/www/certbot
+#     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+# volumes:
+#   portainer_data:
