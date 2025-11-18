@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  ktb-certbot:
+    image: certbot/certbot
+    container_name: ktb-certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+  
   ktb-nginx:
     build: ./ktb-nginx
     container_name: ktb-nginx
@@ -15,12 +22,18 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
   
-  ktb-certbot:
-    image: certbot/certbot
-    container_name: ktb-certbot
+  ktb-portainer:
+    build: ./ktb-portainer
+    container_name: ktb-portainer
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+volumes:
+  portainer_data:
 
 # services:
 #   ktb-certbot:
