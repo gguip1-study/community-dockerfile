@@ -1,24 +1,48 @@
+version: '3.8'
+
 services:
-  ktb-certbot:
-    container_name: ktb-certbot
-    image: certbot/certbot
-    volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-  
   ktb-nginx:
-    container_name: ktb-nginx
     build: ./ktb-nginx
+    container_name: ktb-nginx
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./data/nginx:/etc/nginx/conf.d
+      - ./ktb-nginx/conf.d:/etc/nginx/conf.d
+      - ./ktb-nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./data/nginx/html:/usr/share/nginx/html
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-    depends_on:
-      - ktb-certbot
+  
+  ktb-certbot:
+    image: certbot/certbot
+    container_name: ktb-certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+
+# services:
+#   ktb-certbot:
+#     container_name: ktb-certbot
+#     image: certbot/certbot
+#     volumes:
+#       - ./data/certbot/conf:/etc/letsencrypt
+#       - ./data/certbot/www:/var/www/certbot
+  
+#   ktb-nginx:
+#     container_name: ktb-nginx
+#     build: ./ktb-nginx
+#     restart: unless-stopped
+#     ports:
+#       - "80:80"
+#       - "443:443"
+#     volumes:
+#       - ./data/nginx:/etc/nginx/conf.d
+#       - ./data/certbot/conf:/etc/letsencrypt
+#       - ./data/certbot/www:/var/www/certbot
+#     depends_on:
+#       - ktb-certbot
 
 
 # services:
