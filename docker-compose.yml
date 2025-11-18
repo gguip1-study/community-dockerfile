@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - "9000:9000"
+    depends_on:
+      - ktb-certbot
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
@@ -16,9 +18,24 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    depends_on:
+      - ktb-certbot
     volumes:
       - ./ktb-nginx/conf.d:/etc/nginx/conf.d
       - ./ktb-nginx/certs:/etc/nginx/certs
+
+  ktb-certbot:
+    container_name: ktb-certbot
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - /letsencrypt/certbot/conf:/etc/letsencrypt
+      - /letsencrypt/certbot/www:/var/www/certbot
+    depends_on:
+      - ktb-nginx
+    networks:
+      - backbone
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
   portainer_data:
