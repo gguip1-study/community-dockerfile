@@ -1,1 +1,1 @@
-FROM compnerd/certbot:latest
+FROM certbot/certbot

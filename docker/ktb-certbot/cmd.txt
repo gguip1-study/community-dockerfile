@@ -1,7 +1,7 @@
 docker build -t ktb-certbot .
 
 docker run -d \
---name ktb-certbot
--v /data/certbot/conf:/etc/letsencrypt
--v /data/certbot/www:/var/www/certbot
+--name ktb-certbot \
+-v /data/certbot/conf:/etc/letsencrypt \
+-v /data/certbot/www:/var/www/certbot \
 ktb-certbot
