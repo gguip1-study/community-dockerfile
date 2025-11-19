@@ -5,8 +5,8 @@ services:
     image: certbot/certbot
     container_name: ktb-certbot
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
   
   ktb-nginx:
     build: ./ktb-nginx
@@ -19,9 +19,9 @@ services:
       - ./ktb-nginx/conf.d:/etc/nginx/conf.d
       - ./ktb-nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./data/nginx/html:/usr/share/nginx/html
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
-  
+      - certbot_conf:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+
   ktb-portainer:
     build: ./ktb-portainer
     container_name: ktb-portainer
