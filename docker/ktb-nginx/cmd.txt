@@ -1,0 +1,12 @@
+docker build -t ktb-nginx .
+
+docker run -d -p 80:80 -p 443:443 \
+--name ktb-nginx \
+--restart unless-stopped \
+--network ktb-network \
+-v /ktb-nginx/conf.d:/etc/nginx/conf.d
+-v /ktb-nginx/nginx.conf:/ect/nginx/nginx.conf:ro
+-v /data/nginx/html:/usr/share/nginx/html
+-v /data/certbot/conf:/ect/letsencrypt
+-v /data/certbot/www:/var/www/certbot
+ktb-nginx
