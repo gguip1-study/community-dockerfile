@@ -31,7 +31,9 @@ services:
 
 volumes:
   portainer_data:
+    driver: local
   nginx_html:
+    driver: local
 
 networks:
   ktb-network:

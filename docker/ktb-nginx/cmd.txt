@@ -6,5 +6,5 @@ docker run -d -p 80:80 -p 443:443 \
 --network ktb-network \
 -v nginx_html:/usr/share/nginx/html \
 -v /etc/letsencrypt:/etc/letsencrypt \
--v /data/certbot/www:/var/www/certbot \
+-v /var/www/certbot:/var/www/certbot \
 ktb-nginx
