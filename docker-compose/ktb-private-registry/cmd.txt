@@ -1,0 +1,8 @@
+docker build -t ktb-private-registry .
+
+docker run -d -p 5000:5000 \
+--name ktb-private-registry \
+--restart unless-stopped \
+--network ktb-network \
+-v /var/lib/registry:/var/lib/registry \
+ktb-private-registry
