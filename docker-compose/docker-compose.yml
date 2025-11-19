@@ -41,3 +41,7 @@ volumes:
   certbot_conf:
   certbot_www:
   nginx_html:
+
+networks:
+  ktb-network:
+    driver: bridge
