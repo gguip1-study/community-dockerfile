@@ -12,6 +12,8 @@ services:
     build: ./ktb-nginx
     container_name: ktb-nginx
     restart: unless-stopped
+    networks:
+      - ktb-network
     ports:
       - "80:80"
       - "443:443"
@@ -26,6 +28,8 @@ services:
     build: ./ktb-portainer
     container_name: ktb-portainer
     restart: unless-stopped
+    networks:
+      - ktb-network
     ports:
       - "9000:9000"
     volumes:
