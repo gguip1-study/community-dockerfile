@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   ktb-nginx:
@@ -20,32 +20,32 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
 
-  ktb-portainer:
-    build: ./ktb-portainer
-    container_name: ktb-portainer
-    restart: unless-stopped
-    networks:
-      - ktb-network
-    ports:
-      - "9000:9000"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+  # ktb-portainer:
+  #   build: ./ktb-portainer
+  #   container_name: ktb-portainer
+  #   restart: unless-stopped
+  #   networks:
+  #     - ktb-network
+  #   ports:
+  #     - "9000:9000"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
 
-  ktb-private-registry:
-    build: ./ktb-private-registry
-    container_name: ktb-private-registry
-    restart: unless-stopped
-    networks:
-      - ktb-network
-    ports:
-      - "5000:5000"
-    volumes:
-      - /var/lib/registry:/var/lib/registry
+  # ktb-private-registry:
+  #   build: ./ktb-private-registry
+  #   container_name: ktb-private-registry
+  #   restart: unless-stopped
+  #   networks:
+  #     - ktb-network
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - /var/lib/registry:/var/lib/registry
 
 volumes:
-  portainer_data:
-    driver: local
+  # portainer_data:
+  #   driver: local
   nginx_html:
     driver: local
 
