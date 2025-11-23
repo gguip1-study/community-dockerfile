@@ -20,6 +20,19 @@ services:
       - nginx_html:/usr/share/nginx/html
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
+    
+  ktb-nginx-exporter:
+    image: nginx/nginx-prometheus-exporter:latest
+    container_name: ktb-nginx-exporter
+    command:
+      - "-nginx.scrape-uri=http://127.0.0.1:8080/stub_status"
+    restart: unless-stopped
+    networks:
+      - ktb-network
+    ports:
+      - "9113:9113"
+    depends_on:
+      - ktb-nginx
 
   # ktb-portainer:
   #   build: ./ktb-portainer
