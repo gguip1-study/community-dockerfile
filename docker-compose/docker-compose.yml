@@ -10,10 +10,10 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      # - "8080:8080"
     depends_on:
-    #   - ktb-portainer
-      - ktb-private-registry
+      # - ktb-portainer
+      # - ktb-private-registry
     volumes:
       - ./ktb-nginx/conf.d:/etc/nginx/conf.d
       - ./ktb-nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -21,18 +21,18 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
     
-  ktb-nginx-exporter:
-    image: nginx/nginx-prometheus-exporter:latest
-    container_name: ktb-nginx-exporter
-    command:
-      - "-nginx.scrape-uri=http://127.0.0.1:8080/stub_status"
-    restart: unless-stopped
-    networks:
-      - ktb-network
-    ports:
-      - "9113:9113"
-    depends_on:
-      - ktb-nginx
+  # ktb-nginx-exporter:
+  #   image: nginx/nginx-prometheus-exporter:latest
+  #   container_name: ktb-nginx-exporter
+  #   command:
+  #     - "-nginx.scrape-uri=http://127.0.0.1:8080/stub_status"
+  #   restart: unless-stopped
+  #   networks:
+  #     - ktb-network
+  #   ports:
+  #     - "9113:9113"
+  #   depends_on:
+  #     - ktb-nginx
 
   # ktb-portainer:
   #   build: ./ktb-portainer
@@ -46,16 +46,16 @@ services:
   #     - /var/run/docker.sock:/var/run/docker.sock
   #     - portainer_data:/data
 
-  ktb-private-registry:
-    build: ./ktb-private-registry
-    container_name: ktb-private-registry
-    restart: unless-stopped
-    networks:
-      - ktb-network
-    ports:
-      - "5000:5000"
-    volumes:
-      - /var/lib/registry:/var/lib/registry
+  # ktb-private-registry:
+  #   build: ./ktb-private-registry
+  #   container_name: ktb-private-registry
+  #   restart: unless-stopped
+  #   networks:
+  #     - ktb-network
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - /var/lib/registry:/var/lib/registry
 
 volumes:
   # portainer_data:
