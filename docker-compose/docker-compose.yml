@@ -47,16 +47,16 @@ services:
   #     - /var/run/docker.sock:/var/run/docker.sock
   #     - portainer_data:/data
 
-  ktb-private-registry:
-    build: ./ktb-private-registry
-    container_name: ktb-private-registry
-    restart: unless-stopped
-    networks:
-      - ktb-network
-    ports:
-      - "5000:5000"
-    volumes:
-      - /var/lib/registry:/var/lib/registry
+  # ktb-private-registry:
+  #   build: ./ktb-private-registry
+  #   container_name: ktb-private-registry
+  #   restart: unless-stopped
+  #   networks:
+  #     - ktb-network
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - /var/lib/registry:/var/lib/registry
 
 volumes:
   # portainer_data:
