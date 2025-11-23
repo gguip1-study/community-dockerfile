@@ -20,6 +20,7 @@ services:
       - nginx_html:/usr/share/nginx/html
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/www/certbot:/var/www/certbot
+      - /var/log/nginx:/var/log/nginx
     
   # ktb-nginx-exporter:
   #   image: nginx/nginx-prometheus-exporter:latest
