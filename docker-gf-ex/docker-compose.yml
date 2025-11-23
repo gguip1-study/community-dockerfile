@@ -1,0 +1,19 @@
+services:
+  node_exporter:
+    image: registry.wepick.cloud/node-exporter:v1.8.2
+    container_name: node-exporter
+    network_mode: host
+    pid: host
+    volumes:
+      - "/:/host:ro,rslave"
+    command:
+      - "--path.rootfs=/host"
+    restart: unless-stopped
+
+  nginx_exporter:
+    image: registry.wepick.cloud/nginx-exporter:1.3.0
+    container_name: nginx-exporter
+    network_mode: host
+    command:
+      - "--nginx.scrape-uri=http://127.0.0.1/stub_status"
+    restart: unless-stopped
